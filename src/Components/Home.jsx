@@ -8,11 +8,11 @@ import Pagination from "./Pagination";
 function Home() {
     return (
         <>
-            <div>Home</div>
+
             <NavBar></NavBar>
             <Banner></Banner>
-            <TrendingMovies></TrendingMovies>
-            <Pagination></Pagination>
+            {/* <TrendingMovies></TrendingMovies>
+            <Pagination></Pagination> */}
         </>
 
     )
