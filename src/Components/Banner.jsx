@@ -24,10 +24,8 @@ function Banner() {
         </>
     }
     return (
-        <div className=" h-[40vh] md:h-[60vh]
-        bg-center bg-cover
-        flex items-end  "
-            style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieObj.backdrop_path})` }}
+        <div className="h-[70vh] bg-cover bg-center flex items-end "
+            style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${movieObj.backdrop_path})` }}
         >
             <div className="text-white py-1 bg-slate-950/50 w-full text-center">
                 {movieObj.title}
