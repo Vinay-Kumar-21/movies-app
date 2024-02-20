@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Pagination() {
+function Pagination(props) {
 
     const [pageNo, setPageNo] = useState(1);
 
