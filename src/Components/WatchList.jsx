@@ -25,32 +25,53 @@ const GENRE_NAME = {
 export default function WatchList({ watchList, handleRemoveFromWatchList, setWatchList }) {
     const [genreList, setGenreList] = useState(["All Genres"])
     const [search, setSearch] = useState("");
+    const [filList, setFilLest] = useState([]);
 
     function handleIncrease() {
-        const sorted = watchList.sort((movieA, movieB) => movieA.vote_average - movieB.vote_average);
+        const sorted = filList.sort((movieA, movieB) => movieA.vote_average - movieB.vote_average);
         setWatchList([...sorted])
     }
     function handleDecrease() {
-        const sorted = watchList.sort((movieA, movieB) => movieB.vote_average - movieA.vote_average);
+        const sorted = filList.sort((movieA, movieB) => movieB.vote_average - movieA.vote_average);
         setWatchList([...sorted])
     }
     function handleSearch(e) {
         setSearch(e.target.value);
     }
 
+    function handleGenreClick(genre) {
+        if (genre === "All Genres") {
+            setFilLest([...watchList]);
+        } else {
+            const tmpArray = watchList.filter((gen) => {
+                if (genre === GENRE_NAME[gen.genre_ids[0]]) {
+                    return true;
+                }
+            })
+            setFilLest([...tmpArray]);
+        }
+
+    }
+
+    useEffect(() => {
+        setFilLest([...watchList]);
+    }, [])
+
     useEffect(() => {
         let tmp = watchList.map((movieObj) => GENRE_NAME[movieObj.genre_ids[0]])
         tmp = new Set(tmp);
         setGenreList(["All Genres", ...tmp]);
-    }, [watchList])
+    }, [filList])
+
+
 
     return (
         <>
-            <div className="flex justify-center">
+            <div className="flex justify-center space-x-2">
                 {genreList.map((genre) => {
-                    return <div className="h-[3rem] w-[12rem] bg-blue-400
+                    return <div className="py-1 px-2 bg-gray-400 h-[3rem] w-[12rem] hover:bg-blue-400
                     rounded-xl text-white flex justify-center items-center 
-                    font-bold ">{genre}</div>
+                    font-bold " onClick={() => handleGenreClick(genre)} key={genre}>{genre}</div>
                 })}
             </div>
 
@@ -77,7 +98,7 @@ export default function WatchList({ watchList, handleRemoveFromWatchList, setWat
                         </tr>
                     </thead>
                     <tbody>
-                        {watchList.filter((movieObj) => {
+                        {filList.filter((movieObj) => {
                             return movieObj.title.toLowerCase().includes(search.toLocaleLowerCase());
                         })
                             .map((movieObj) => {
@@ -90,7 +111,7 @@ export default function WatchList({ watchList, handleRemoveFromWatchList, setWat
                                     <td>{movieObj.popularity}</td>
                                     <td>{GENRE_NAME[movieObj.genre_ids[0]]}</td>
                                     <td onClick={() => handleRemoveFromWatchList(movieObj)}
-                                        className=" text-red-500 ">
+                                        className=" text-red-500 cursor-pointer">
                                         <i className="fa-solid fa-trash"></i>
                                     </td>
                                 </tr>
